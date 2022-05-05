@@ -1,0 +1,20 @@
+fragment PlaceFields on Place {
+  id
+  owner {
+    ...UserFields
+  }
+  desciption
+  mainPhoto
+  photos
+  priceByNight
+
+  reviews {
+    id
+    author {
+      ...UserFields
+    }
+    feedback
+    rate
+    place
+  }
+}

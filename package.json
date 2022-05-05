@@ -1,28 +1,26 @@
 {
   "name": "next-js-graphql-starter",
   "private": false,
-  "description": "Starter Next.js with apollo graphql server auto generetated schema",
+  "description": "Do what you love in a city you love",
   "keywords": [
-    "graphql,tools,schema,merge,combine,resolvers,fast,simple,starter,nextjs,typescript"
+    "fun"
   ],
-  "author": "Salah Eddine Lalami",
-  "license": "MIT",
+  "author": "Paul Garcia",
+  "license": "deeznuts",
   "scripts": {
-    "dev": "yarn generate && next dev",
+    "dev": "npm run generate && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "yarn schema && graphql-codegen --config codegen.yml",
+    "generate": "npm run schema && graphql-codegen --config codegen.yml",
     "schema": "node ./graphql/scripts/generateSchema"
   },
   "dependencies": {
-    "@graphql-codegen/cli": "^2.3.1",
-    "@graphql-codegen/typescript": "^2.4.2",
     "apollo-server-micro": "^3.5.0",
     "fast-graphql": "^2.0.2",
     "graphql": "^16.1.0",
     "micro": "^9.3.4",
-    "next": "12.0.4",
+    "next": "^12.1.6",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
@@ -33,7 +31,20 @@
     "eslint-config-next": "12.0.4",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.4.1",
-    "typescript": "4.5.2"
+    "typescript": "4.5.2",
+    "@graphql-codegen/add": "^3.1.0",
+    "@graphql-codegen/cli": "^2.2.2",
+    "@graphql-codegen/fragment-matcher": "^3.2.0",
+    "@graphql-codegen/import-types-preset": "^2.1.7",
+    "@graphql-codegen/introspection": "^2.1.0",
+    "@graphql-codegen/near-operation-file-preset": "^2.2.0",
+    "@graphql-codegen/typescript": "^2.3.0",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^2.1.7",
+    "@graphql-codegen/typescript-document-nodes": "^2.2.0",
+    "@graphql-codegen/typescript-graphql-request": "^4.2.0",
+    "@graphql-codegen/typescript-operations": "^2.2.0",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.0",
+    "@graphql-codegen/typescript-resolvers": "^2.4.0"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
