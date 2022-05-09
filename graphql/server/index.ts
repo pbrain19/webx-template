@@ -1,37 +1,39 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { ApolloServer } from 'apollo-server-micro';
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { ApolloServer } from 'apollo-server-micro'
+import setupPrisma from '@/prisma/setup'
+import { createContext } from '@/graphql/context'
 
-import { createContext } from '@/graphql/context';
+import typeDefs from '@/graphql/typeDefs'
+import resolvers from '@/graphql/resolvers'
 
-import typeDefs from '@/graphql/typeDefs';
-import resolvers from '@/graphql/resolvers';
+setupPrisma()
 
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
-  context: createContext,
-});
-const startServer = apolloServer.start();
+  context: createContext
+})
+const startServer = apolloServer.start()
 
 export default async function graphqlServer({
   req,
   res,
-  serverConfig = {},
+  serverConfig = {}
 }: {
-  req: NextApiRequest;
-  res: NextApiResponse;
-  serverConfig?: any;
+  req: NextApiRequest
+  res: NextApiResponse
+  serverConfig?: any
 }) {
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Headers', '*')
   if (req.method === 'OPTIONS') {
-    res.end();
-    return false;
+    res.end()
+    return false
   }
 
-  await startServer;
+  await startServer
   await apolloServer.createHandler({
-    path: '/api/graphql',
-  })(req, res);
+    path: '/api/graphql'
+  })(req, res)
 }
