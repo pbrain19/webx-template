@@ -11,7 +11,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "tsc --noEmit && ./node_modules/.bin/eslint . --fix",
     "generate": "npm run schema && graphql-codegen --config codegen.yml",
     "schema": "node ./graphql/scripts/generateSchema",
     "postinstall": "npm run generate"
@@ -27,13 +27,6 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@types/node": "16.11.7",
-    "@types/react": "17.0.35",
-    "eslint": "7.32.0",
-    "eslint-config-next": "12.0.4",
-    "eslint-config-prettier": "^8.3.0",
-    "prettier": "^2.4.1",
-    "typescript": "4.5.2",
     "@graphql-codegen/add": "^3.1.0",
     "@graphql-codegen/cli": "^2.2.2",
     "@graphql-codegen/fragment-matcher": "^3.2.0",
@@ -46,7 +39,24 @@
     "@graphql-codegen/typescript-graphql-request": "^4.2.0",
     "@graphql-codegen/typescript-operations": "^2.2.0",
     "@graphql-codegen/typescript-react-apollo": "^3.2.0",
-    "@graphql-codegen/typescript-resolvers": "^2.4.0"
+    "@graphql-codegen/typescript-resolvers": "^2.4.0",
+    "@types/node": "16.11.7",
+    "@types/react": "17.0.35",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "eslint": "^8.1.0",
+    "eslint-config-next": "^12.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsdoc": "^37.0.3",
+    "eslint-plugin-no-null": "^1.0.2",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.1-alpha-9c8161ba8-20211028",
+    "prettier": "^2.4.1",
+    "typescript": "4.5.2"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

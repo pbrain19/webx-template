@@ -18,7 +18,7 @@ const users = [
     email: 'kent@kcc.io',
     photo: 'https://pbs.twimg.com/profile_images/1444988463216922631/IDffhy4i_400x400.jpg',
   },
-];
+]
 const reviews = [
   {
     id: '1',
@@ -41,6 +41,6 @@ const reviews = [
     rate: 4,
     place: '1',
   },
-];
+]
 
-console.log(reviews.filter((x) => x.author.id == '1'));
+console.log(reviews.filter((x) => x.author.id == '1'))
