@@ -1,7 +1,7 @@
 export default `type Place {
   id: ID
   owner: User
-  desciption: String
+  description: String
   mainPhoto: String
   photos: [String]
   priceByNight: Float
@@ -21,7 +21,7 @@ type Mutation {
 }
 
 type Query {
-  placeList: [Place]
+  placeList: [Place!]!
   place(id: ID): Place
 }
  type Review {

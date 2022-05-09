@@ -3,7 +3,7 @@ fragment PlaceFields on Place {
   owner {
     ...UserFields
   }
-  desciption
+  description
   mainPhoto
   photos
   priceByNight

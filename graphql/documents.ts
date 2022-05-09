@@ -14,7 +14,7 @@ export const PlaceFields = gql`
     owner {
       ...UserFields
     }
-    desciption
+    description
     mainPhoto
     photos
     priceByNight
@@ -37,4 +37,13 @@ export const addPlaceMutation = gql`
     }
   }
   ${PlaceFields}
+`
+export const placeListQuery = gql`
+  query placeListQuery {
+    placeList {
+      id
+      priceByNight
+      description
+    }
+  }
 `

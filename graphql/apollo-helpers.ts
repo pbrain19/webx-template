@@ -6,7 +6,7 @@ export type MutationFieldPolicy = {
   addUser?: FieldPolicy<any> | FieldReadFunction<any>
 }
 export type PlaceKeySpecifier = (
-  | 'desciption'
+  | 'description'
   | 'id'
   | 'mainPhoto'
   | 'owner'
@@ -16,7 +16,7 @@ export type PlaceKeySpecifier = (
   | PlaceKeySpecifier
 )[]
 export type PlaceFieldPolicy = {
-  desciption?: FieldPolicy<any> | FieldReadFunction<any>
+  description?: FieldPolicy<any> | FieldReadFunction<any>
   id?: FieldPolicy<any> | FieldReadFunction<any>
   mainPhoto?: FieldPolicy<any> | FieldReadFunction<any>
   owner?: FieldPolicy<any> | FieldReadFunction<any>

@@ -8,14 +8,16 @@
   "author": "Paul Garcia",
   "license": "deeznuts",
   "scripts": {
-    "dev": "npm run generate && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "generate": "npm run schema && graphql-codegen --config codegen.yml",
-    "schema": "node ./graphql/scripts/generateSchema"
+    "schema": "node ./graphql/scripts/generateSchema",
+    "postinstall": "npm run generate"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.2",
     "apollo-server-micro": "^3.5.0",
     "fast-graphql": "^2.0.2",
     "graphql": "^16.1.0",

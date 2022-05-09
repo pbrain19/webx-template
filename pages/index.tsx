@@ -1,10 +1,11 @@
-import type { NextPage } from 'next';
-
-import Head from 'next/head';
-
-import styles from '@/styles/Home.module.css';
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import styles from '@/styles/Home.module.css'
+import { useplaceListQuery } from '@/graphql/generated'
 
 const Home: NextPage = () => {
+  const { data } = useplaceListQuery()
+
   return (
     <div className={styles.container}>
       <Head>
@@ -21,6 +22,10 @@ const Home: NextPage = () => {
           width={600}
           height={400}
         />
+
+        <ul>
+          {data && data.placeList.map((place) => <li key={place.id}>{place.description}</li>)}
+        </ul>
       </main>
 
       <footer className={styles.footer}>
@@ -33,7 +38,7 @@ const Home: NextPage = () => {
         </a>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

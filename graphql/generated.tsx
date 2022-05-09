@@ -39,7 +39,7 @@ export type MutationaddUserArgs = {
 
 export type Place = {
   __typename: 'Place'
-  desciption?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['ID']>
   mainPhoto?: Maybe<Scalars['String']>
   owner?: Maybe<User>
@@ -51,7 +51,7 @@ export type Place = {
 export type Query = {
   __typename: 'Query'
   place?: Maybe<Place>
-  placeList?: Maybe<Array<Maybe<Place>>>
+  placeList: Array<Place>
   reviewByUser?: Maybe<Array<Maybe<Review>>>
   user: User
   userList: Array<User>
@@ -109,7 +109,7 @@ export type inputUserType = {
 export type PlaceFieldsFragment = {
   __typename: 'Place'
   id?: string | null
-  desciption?: string | null
+  description?: string | null
   mainPhoto?: string | null
   photos?: Array<string | null> | null
   priceByNight?: number | null
@@ -153,7 +153,7 @@ export type addPlaceMutationResult = {
   addPlace?: {
     __typename: 'Place'
     id?: string | null
-    desciption?: string | null
+    description?: string | null
     mainPhoto?: string | null
     photos?: Array<string | null> | null
     priceByNight?: number | null
@@ -179,6 +179,18 @@ export type addPlaceMutationResult = {
       } | null
     } | null> | null
   } | null
+}
+
+export type placeListQueryVariables = Exact<{ [key: string]: never }>
+
+export type placeListQueryResult = {
+  __typename: 'Query'
+  placeList: Array<{
+    __typename: 'Place'
+    id?: string | null
+    priceByNight?: number | null
+    description?: string | null
+  }>
 }
 
 export type WithIndex<TObject> = TObject & Record<string, any>
@@ -321,7 +333,7 @@ export type PlaceResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Place'] = ResolversParentTypes['Place']
 > = ResolversObject<{
-  desciption?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   mainPhoto?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   owner?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
@@ -336,7 +348,7 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType, Partial<QueryplaceArgs>>
-  placeList?: Resolver<Maybe<Array<Maybe<ResolversTypes['Place']>>>, ParentType, ContextType>
+  placeList?: Resolver<Array<ResolversTypes['Place']>, ParentType, ContextType>
   reviewByUser?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Review']>>>,
     ParentType,
@@ -419,4 +431,44 @@ export type addPlaceMutationMutationResult = Apollo.MutationResult<addPlaceMutat
 export type addPlaceMutationMutationOptions = Apollo.BaseMutationOptions<
   addPlaceMutationResult,
   addPlaceMutationVariables
+>
+
+/**
+ * __useplaceListQuery__
+ *
+ * To run a query within a React component, call `useplaceListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useplaceListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useplaceListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useplaceListQuery(
+  baseOptions?: Apollo.QueryHookOptions<placeListQueryResult, placeListQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<placeListQueryResult, placeListQueryVariables>(
+    Operations.placeListQuery,
+    options
+  )
+}
+export function useplaceListQueryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<placeListQueryResult, placeListQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<placeListQueryResult, placeListQueryVariables>(
+    Operations.placeListQuery,
+    options
+  )
+}
+export type placeListQueryHookResult = ReturnType<typeof useplaceListQuery>
+export type placeListQueryLazyQueryHookResult = ReturnType<typeof useplaceListQueryLazyQuery>
+export type placeListQueryQueryResult = Apollo.QueryResult<
+  placeListQueryResult,
+  placeListQueryVariables
 >

@@ -33,7 +33,7 @@ export type MutationAddUserArgs = {
 
 export type Place = {
   __typename?: 'Place'
-  desciption?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['ID']>
   mainPhoto?: Maybe<Scalars['String']>
   owner?: Maybe<User>
@@ -45,7 +45,7 @@ export type Place = {
 export type Query = {
   __typename?: 'Query'
   place?: Maybe<Place>
-  placeList?: Maybe<Array<Maybe<Place>>>
+  placeList: Array<Place>
   reviewByUser?: Maybe<Array<Maybe<Review>>>
   user: User
   userList: Array<User>

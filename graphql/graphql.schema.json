@@ -134,7 +134,7 @@
         "description": null,
         "fields": [
           {
-            "name": "desciption",
+            "name": "description",
             "description": null,
             "args": [],
             "type": {
@@ -266,12 +266,20 @@
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Place",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Place",
+                    "ofType": null
+                  }
+                }
               }
             },
             "isDeprecated": false,
