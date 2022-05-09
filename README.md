@@ -1,51 +1,21 @@
-# Next.js Graphql apollo server starter 
+# Pauls style repo
 
-Next.js Graphql apollo server starter , with merge schema , combine resolvers generate type in fast and simple way
+This repo makes use of the following tech stack
 
+- nextjs
+- apollo client
+- apollo server
+- graphql codegen
+- react hooks
+- material ui
 
-```
-Don't forget please to ⭐ this repo
-```
+# adding endpoint
 
-## Install
+This repo uses graphql to manage the interface typings from client to server. In order to create a new route you must first create
+a new schema for the type. Once the schema is declared for your new type, you can create a new query or mutation to manage it.
 
-```
-yarn Install
-```
+Once you are done declaring your new GQL typings you can now run the generator that will create the clients and typings for your new schemas using
 
-## Generate schema and Type
+`npm run generate`
 
-```
-yarn generate
-```
-
-## Getting Started
-
-First, run the development server:
-
-```
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/graphql](http://localhost:3000/api/graphql). This endpoint can be edited in `pages/api/graphql.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To run the project use npm run dev
