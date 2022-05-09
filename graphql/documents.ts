@@ -38,6 +38,14 @@ export const addPlaceMutation = gql`
   }
   ${PlaceFields}
 `
+export const addUserMutation = gql`
+  mutation addUserMutation($body: inputUserType!) {
+    addUser(body: $body) {
+      ...UserFields
+    }
+  }
+  ${UserFields}
+`
 export const placeListQuery = gql`
   query placeListQuery {
     placeList {

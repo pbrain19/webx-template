@@ -56,6 +56,7 @@ type Mutation {
 input inputUserType {
   name: String!
   email: String!
+  password: String!
 }
 
 type Query {

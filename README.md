@@ -19,3 +19,11 @@ Once you are done declaring your new GQL typings you can now run the generator t
 `npm run generate`
 
 To run the project use npm run dev
+
+# database
+
+We use prisma for database. To add or update ->
+
+1. update schema
+2. run migration `prisma migrate dev --name xxxxx`
+3. update client `prisma generate`

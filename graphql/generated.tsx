@@ -104,6 +104,7 @@ export type inputReviewType = {
 export type inputUserType = {
   email: Scalars['String']
   name: Scalars['String']
+  password: Scalars['String']
 }
 
 export type PlaceFieldsFragment = {
@@ -179,6 +180,15 @@ export type addPlaceMutationResult = {
       } | null
     } | null> | null
   } | null
+}
+
+export type addUserMutationVariables = Exact<{
+  body: inputUserType
+}>
+
+export type addUserMutationResult = {
+  __typename: 'Mutation'
+  addUser: { __typename: 'User'; id: string; name?: string | null; email: string; photo: string }
 }
 
 export type placeListQueryVariables = Exact<{ [key: string]: never }>
@@ -431,6 +441,43 @@ export type addPlaceMutationMutationResult = Apollo.MutationResult<addPlaceMutat
 export type addPlaceMutationMutationOptions = Apollo.BaseMutationOptions<
   addPlaceMutationResult,
   addPlaceMutationVariables
+>
+export type addUserMutationMutationFn = Apollo.MutationFunction<
+  addUserMutationResult,
+  addUserMutationVariables
+>
+
+/**
+ * __useaddUserMutation__
+ *
+ * To run a mutation, you first call `useaddUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useaddUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addUserMutation, { data, loading, error }] = useaddUserMutation({
+ *   variables: {
+ *      body: // value for 'body'
+ *   },
+ * });
+ */
+export function useaddUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<addUserMutationResult, addUserMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<addUserMutationResult, addUserMutationVariables>(
+    Operations.addUserMutation,
+    options
+  )
+}
+export type addUserMutationHookResult = ReturnType<typeof useaddUserMutation>
+export type addUserMutationMutationResult = Apollo.MutationResult<addUserMutationResult>
+export type addUserMutationMutationOptions = Apollo.BaseMutationOptions<
+  addUserMutationResult,
+  addUserMutationVariables
 >
 
 /**

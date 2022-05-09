@@ -98,4 +98,5 @@ export type InputReviewType = {
 export type InputUserType = {
   email: Scalars['String']
   name: Scalars['String']
+  password: Scalars['String']
 }
