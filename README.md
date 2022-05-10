@@ -27,3 +27,8 @@ We use prisma for database. To add or update ->
 1. update schema
 2. run migration `prisma migrate dev --name xxxxx`
 3. update client `prisma generate`
+
+
+We use docker to create a local database. Download and install docker and docker compose on your local machine. Ensure the permissions are correct.
+
+Then simply use `docker-compose up -d` to start the database containers.  
