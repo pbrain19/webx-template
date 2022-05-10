@@ -1,7 +1,8 @@
-query placeListQuery {
+query PlaceListQuery {
   placeList {
     id
     priceByNight
     description
+    mainPhoto
   }
 }

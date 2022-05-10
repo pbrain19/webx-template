@@ -14,8 +14,9 @@ model User {
   id        Int        @id @default(autoincrement())
   uuid      String
   name      String
-  email     String     @unique
   password  String
+  photo     String     @default("https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y")
+  email     String     @unique
   posts     Post[]
   comments  Comment[]
   responses Response[]
@@ -44,12 +45,13 @@ model Comment {
 }
 
 model Response {
-  id        Int       @id @default(autoincrement())
-  uuid      String
-  response  String
-  commentId Int
-  comment   Comment   @relation(fields: [commentId], references: [id])
-  authorId  Int
-  author    User      @relation(fields: [authorId], references: [id])
-  deleted   DateTime?
+  id           Int       @id @default(autoincrement())
+  uuid         String
+  responseText String
+  dateAdded    DateTime
+  commentId    Int
+  authorId     Int
+  comment      Comment   @relation(fields: [commentId], references: [id])
+  author       User      @relation(fields: [authorId], references: [id])
+  deleted      DateTime?
 }

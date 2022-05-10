@@ -1,23 +1,28 @@
-import { resolverType } from 'fast-graphql';
-import { users } from '@/data';
-import * as schemaType from '@/graphql/generated/schemaType';
+import { Resolvers } from '../generated'
+import { createUser } from '@/services/user'
 
-const Query = {
-  userList: (parent: any, args: any, ctx: any) => {
-    return users;
+const resolver: Resolvers = {
+  User: {
+    id: (user) => user.uuid,
+    name: (user) => user.name,
+    email: (user) => user.email,
+    photo: (user) => user.photo
   },
 
-  user: (parent: any, args: any, ctx: any) => {
-    return users.find((x) => x.id == args.id);
+  Query: {
+    userList: (_, args, { prisma }) => {
+      return prisma.user.findMany()
+    },
+
+    user: (_, args, { prisma }) => {
+      return prisma.user.findFirst({ where: { uuid: args.id } })
+    }
   },
-};
+  Mutation: {
+    addUser: (_, args) => {
+      return createUser(args.body!)
+    }
+  }
+}
 
-const Mutation = {
-  addUser: (parent: any, args: any, ctx: any) => {
-    return { name: 'this is addUser mutuation' };
-  },
-};
-
-const resolver: resolverType = { Query, Mutation };
-
-export default resolver;
+export default resolver

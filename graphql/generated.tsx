@@ -1,5 +1,7 @@
 /* eslint-disable import/order */
 import { GraphQLResolveInfo } from 'graphql'
+import { User as UserModel } from '@prisma/client/index.d'
+import { IContext } from 'graphql/context'
 import * as Operations from './documents'
 import * as Apollo from '@apollo/client'
 export type Maybe<T> = T | null
@@ -7,6 +9,7 @@ export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> }
 const defaultOptions = {} as const
 /** All built-in and custom scalars, mapped to their actual values */
@@ -53,7 +56,7 @@ export type Query = {
   place?: Maybe<Place>
   placeList: Array<Place>
   reviewByUser?: Maybe<Array<Maybe<Review>>>
-  user: User
+  user?: Maybe<User>
   userList: Array<User>
 }
 
@@ -145,11 +148,11 @@ export type UserFieldsFragment = {
   photo: string
 }
 
-export type addPlaceMutationVariables = Exact<{
+export type AddPlaceMutationVariables = Exact<{
   body: inputPlaceType
 }>
 
-export type addPlaceMutationResult = {
+export type AddPlaceMutationResult = {
   __typename: 'Mutation'
   addPlace?: {
     __typename: 'Place'
@@ -182,24 +185,25 @@ export type addPlaceMutationResult = {
   } | null
 }
 
-export type addUserMutationVariables = Exact<{
+export type AddUserMutationVariables = Exact<{
   body: inputUserType
 }>
 
-export type addUserMutationResult = {
+export type AddUserMutationResult = {
   __typename: 'Mutation'
   addUser: { __typename: 'User'; id: string; name?: string | null; email: string; photo: string }
 }
 
-export type placeListQueryVariables = Exact<{ [key: string]: never }>
+export type PlaceListQueryVariables = Exact<{ [key: string]: never }>
 
-export type placeListQueryResult = {
+export type PlaceListQueryResult = {
   __typename: 'Query'
   placeList: Array<{
     __typename: 'Place'
     id?: string | null
     priceByNight?: number | null
     description?: string | null
+    mainPhoto?: string | null
   }>
 }
 
@@ -294,11 +298,16 @@ export type ResolversTypes = ResolversObject<{
   Float: ResolverTypeWrapper<Scalars['Float']>
   ID: ResolverTypeWrapper<Scalars['ID']>
   Mutation: ResolverTypeWrapper<{}>
-  Place: ResolverTypeWrapper<Place>
+  Place: ResolverTypeWrapper<
+    Omit<Place, 'owner' | 'reviews'> & {
+      owner?: Maybe<ResolversTypes['User']>
+      reviews?: Maybe<Array<Maybe<ResolversTypes['Review']>>>
+    }
+  >
   Query: ResolverTypeWrapper<{}>
-  Review: ResolverTypeWrapper<Review>
+  Review: ResolverTypeWrapper<Omit<Review, 'author'> & { author?: Maybe<ResolversTypes['User']> }>
   String: ResolverTypeWrapper<Scalars['String']>
-  User: ResolverTypeWrapper<User>
+  User: ResolverTypeWrapper<UserModel>
   inputPlaceType: inputPlaceType
   inputReviewType: inputReviewType
   inputUserType: inputUserType
@@ -310,18 +319,21 @@ export type ResolversParentTypes = ResolversObject<{
   Float: Scalars['Float']
   ID: Scalars['ID']
   Mutation: {}
-  Place: Place
+  Place: Omit<Place, 'owner' | 'reviews'> & {
+    owner?: Maybe<ResolversParentTypes['User']>
+    reviews?: Maybe<Array<Maybe<ResolversParentTypes['Review']>>>
+  }
   Query: {}
-  Review: Review
+  Review: Omit<Review, 'author'> & { author?: Maybe<ResolversParentTypes['User']> }
   String: Scalars['String']
-  User: User
+  User: UserModel
   inputPlaceType: inputPlaceType
   inputReviewType: inputReviewType
   inputUserType: inputUserType
 }>
 
 export type MutationResolvers<
-  ContextType = any,
+  ContextType = IContext,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
   addPlace?: Resolver<
@@ -340,7 +352,7 @@ export type MutationResolvers<
 }>
 
 export type PlaceResolvers<
-  ContextType = any,
+  ContextType = IContext,
   ParentType extends ResolversParentTypes['Place'] = ResolversParentTypes['Place']
 > = ResolversObject<{
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
@@ -354,7 +366,7 @@ export type PlaceResolvers<
 }>
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = IContext,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   place?: Resolver<Maybe<ResolversTypes['Place']>, ParentType, ContextType, Partial<QueryplaceArgs>>
@@ -366,7 +378,7 @@ export type QueryResolvers<
     Partial<QueryreviewByUserArgs>
   >
   user?: Resolver<
-    ResolversTypes['User'],
+    Maybe<ResolversTypes['User']>,
     ParentType,
     ContextType,
     RequireFields<QueryuserArgs, 'id'>
@@ -375,7 +387,7 @@ export type QueryResolvers<
 }>
 
 export type ReviewResolvers<
-  ContextType = any,
+  ContextType = IContext,
   ParentType extends ResolversParentTypes['Review'] = ResolversParentTypes['Review']
 > = ResolversObject<{
   author?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
@@ -387,7 +399,7 @@ export type ReviewResolvers<
 }>
 
 export type UserResolvers<
-  ContextType = any,
+  ContextType = IContext,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = ResolversObject<{
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
@@ -397,7 +409,7 @@ export type UserResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }>
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = IContext> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>
   Place?: PlaceResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
@@ -405,117 +417,117 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   User?: UserResolvers<ContextType>
 }>
 
-export type addPlaceMutationMutationFn = Apollo.MutationFunction<
-  addPlaceMutationResult,
-  addPlaceMutationVariables
+export type AddPlaceMutationMutationFn = Apollo.MutationFunction<
+  AddPlaceMutationResult,
+  AddPlaceMutationVariables
 >
 
 /**
- * __useaddPlaceMutation__
+ * __useAddPlaceMutation__
  *
- * To run a mutation, you first call `useaddPlaceMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useaddPlaceMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddPlaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPlaceMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addPlaceMutation, { data, loading, error }] = useaddPlaceMutation({
+ * const [addPlaceMutation, { data, loading, error }] = useAddPlaceMutation({
  *   variables: {
  *      body: // value for 'body'
  *   },
  * });
  */
-export function useaddPlaceMutation(
-  baseOptions?: Apollo.MutationHookOptions<addPlaceMutationResult, addPlaceMutationVariables>
+export function useAddPlaceMutation(
+  baseOptions?: Apollo.MutationHookOptions<AddPlaceMutationResult, AddPlaceMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<addPlaceMutationResult, addPlaceMutationVariables>(
-    Operations.addPlaceMutation,
+  return Apollo.useMutation<AddPlaceMutationResult, AddPlaceMutationVariables>(
+    Operations.AddPlaceMutation,
     options
   )
 }
-export type addPlaceMutationHookResult = ReturnType<typeof useaddPlaceMutation>
-export type addPlaceMutationMutationResult = Apollo.MutationResult<addPlaceMutationResult>
-export type addPlaceMutationMutationOptions = Apollo.BaseMutationOptions<
-  addPlaceMutationResult,
-  addPlaceMutationVariables
+export type AddPlaceMutationHookResult = ReturnType<typeof useAddPlaceMutation>
+export type AddPlaceMutationMutationResult = Apollo.MutationResult<AddPlaceMutationResult>
+export type AddPlaceMutationMutationOptions = Apollo.BaseMutationOptions<
+  AddPlaceMutationResult,
+  AddPlaceMutationVariables
 >
-export type addUserMutationMutationFn = Apollo.MutationFunction<
-  addUserMutationResult,
-  addUserMutationVariables
+export type AddUserMutationMutationFn = Apollo.MutationFunction<
+  AddUserMutationResult,
+  AddUserMutationVariables
 >
 
 /**
- * __useaddUserMutation__
+ * __useAddUserMutation__
  *
- * To run a mutation, you first call `useaddUserMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useaddUserMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useAddUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddUserMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [addUserMutation, { data, loading, error }] = useaddUserMutation({
+ * const [addUserMutation, { data, loading, error }] = useAddUserMutation({
  *   variables: {
  *      body: // value for 'body'
  *   },
  * });
  */
-export function useaddUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<addUserMutationResult, addUserMutationVariables>
+export function useAddUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<AddUserMutationResult, AddUserMutationVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<addUserMutationResult, addUserMutationVariables>(
-    Operations.addUserMutation,
+  return Apollo.useMutation<AddUserMutationResult, AddUserMutationVariables>(
+    Operations.AddUserMutation,
     options
   )
 }
-export type addUserMutationHookResult = ReturnType<typeof useaddUserMutation>
-export type addUserMutationMutationResult = Apollo.MutationResult<addUserMutationResult>
-export type addUserMutationMutationOptions = Apollo.BaseMutationOptions<
-  addUserMutationResult,
-  addUserMutationVariables
+export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>
+export type AddUserMutationMutationResult = Apollo.MutationResult<AddUserMutationResult>
+export type AddUserMutationMutationOptions = Apollo.BaseMutationOptions<
+  AddUserMutationResult,
+  AddUserMutationVariables
 >
 
 /**
- * __useplaceListQuery__
+ * __usePlaceListQuery__
  *
- * To run a query within a React component, call `useplaceListQuery` and pass it any options that fit your needs.
- * When your component renders, `useplaceListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `usePlaceListQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlaceListQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useplaceListQuery({
+ * const { data, loading, error } = usePlaceListQuery({
  *   variables: {
  *   },
  * });
  */
-export function useplaceListQuery(
-  baseOptions?: Apollo.QueryHookOptions<placeListQueryResult, placeListQueryVariables>
+export function usePlaceListQuery(
+  baseOptions?: Apollo.QueryHookOptions<PlaceListQueryResult, PlaceListQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<placeListQueryResult, placeListQueryVariables>(
-    Operations.placeListQuery,
+  return Apollo.useQuery<PlaceListQueryResult, PlaceListQueryVariables>(
+    Operations.PlaceListQuery,
     options
   )
 }
-export function useplaceListQueryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<placeListQueryResult, placeListQueryVariables>
+export function usePlaceListQueryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<PlaceListQueryResult, PlaceListQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<placeListQueryResult, placeListQueryVariables>(
-    Operations.placeListQuery,
+  return Apollo.useLazyQuery<PlaceListQueryResult, PlaceListQueryVariables>(
+    Operations.PlaceListQuery,
     options
   )
 }
-export type placeListQueryHookResult = ReturnType<typeof useplaceListQuery>
-export type placeListQueryLazyQueryHookResult = ReturnType<typeof useplaceListQueryLazyQuery>
-export type placeListQueryQueryResult = Apollo.QueryResult<
-  placeListQueryResult,
-  placeListQueryVariables
+export type PlaceListQueryHookResult = ReturnType<typeof usePlaceListQuery>
+export type PlaceListQueryLazyQueryHookResult = ReturnType<typeof usePlaceListQueryLazyQuery>
+export type PlaceListQueryQueryResult = Apollo.QueryResult<
+  PlaceListQueryResult,
+  PlaceListQueryVariables
 >

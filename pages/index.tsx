@@ -1,10 +1,13 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { useplaceListQuery } from '@/graphql/generated'
+import { useAddUserMutation, usePlaceListQuery } from '@/graphql/generated'
 
 const Home: NextPage = () => {
-  const { data } = useplaceListQuery()
+  const { data } = usePlaceListQuery()
+  const [callSave] = useAddUserMutation({
+    variables: { body: { email: 'pbrain1ss9@gmail.com', name: 'paul', password: '1234' } }
+  })
 
   return (
     <div className={styles.container}>
@@ -23,9 +26,9 @@ const Home: NextPage = () => {
           height={400}
         />
 
-        <ul>
-          {data && data.placeList.map((place) => <li key={place.id}>{place.description}</li>)}
-        </ul>
+        <ul>{data && data.placeList.map((place) => <li key={place.id}>{place.mainPhoto}</li>)}</ul>
+
+        <button onClick={() => callSave()}>save</button>
       </main>
 
       <footer className={styles.footer}>

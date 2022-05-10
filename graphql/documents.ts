@@ -30,28 +30,29 @@ export const PlaceFields = gql`
   }
   ${UserFields}
 `
-export const addPlaceMutation = gql`
-  mutation addPlaceMutation($body: inputPlaceType!) {
+export const AddPlaceMutation = gql`
+  mutation AddPlaceMutation($body: inputPlaceType!) {
     addPlace(body: $body) {
       ...PlaceFields
     }
   }
   ${PlaceFields}
 `
-export const addUserMutation = gql`
-  mutation addUserMutation($body: inputUserType!) {
+export const AddUserMutation = gql`
+  mutation AddUserMutation($body: inputUserType!) {
     addUser(body: $body) {
       ...UserFields
     }
   }
   ${UserFields}
 `
-export const placeListQuery = gql`
-  query placeListQuery {
+export const PlaceListQuery = gql`
+  query PlaceListQuery {
     placeList {
       id
       priceByNight
       description
+      mainPhoto
     }
   }
 `

@@ -47,7 +47,7 @@ export type Query = {
   place?: Maybe<Place>
   placeList: Array<Place>
   reviewByUser?: Maybe<Array<Maybe<Review>>>
-  user: User
+  user?: Maybe<User>
   userList: Array<User>
 }
 

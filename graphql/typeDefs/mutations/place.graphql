@@ -1,4 +1,4 @@
-mutation addPlaceMutation($body: inputPlaceType!) {
+mutation AddPlaceMutation($body: inputPlaceType!) {
   addPlace(body: $body) {
     ...PlaceFields
   }

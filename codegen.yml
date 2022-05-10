@@ -28,6 +28,7 @@ generates:
     config:
       withHooks: true
       withHOC: false
+      contextType: 'graphql/context#IContext'
       withComponent: false
       useIndexSignature: true
       documentMode: 'external'
@@ -42,6 +43,9 @@ generates:
       scalars:
         Date: Date
         JSON: '{ [key: string]: any }'
+      mapperTypeSuffix: Model
+      mappers:
+        User: '@prisma/client/index.d#User'
   graphql/documents.ts:
     plugins:
       - add:

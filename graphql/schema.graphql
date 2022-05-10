@@ -61,7 +61,7 @@ input inputUserType {
 
 type Query {
   userList: [User!]!
-  user(id: ID!): User!
+  user(id: ID!): User
 }
 
 type Mutation {
