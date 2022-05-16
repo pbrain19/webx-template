@@ -53,10 +53,16 @@ type Mutation {
   photo: String!
 }
 
-input inputUserType {
+input InputUserType {
   name: String!
   email: String!
   password: String!
+}
+
+input InputUpdateUser {
+  name: String!
+  twitter: String
+  linkedIn: String
 }
 
 type Query {
@@ -65,6 +71,7 @@ type Query {
 }
 
 type Mutation {
-  addUser(body: inputUserType): User!
+  addUser(body: InputUserType!): User!
+  updateUser(body: InputUpdateUser!): User!
 }
 `;

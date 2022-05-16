@@ -1,5 +1,11 @@
-mutation AddUserMutation($body: inputUserType!) {
+mutation AddUserMutation($body: InputUserType!) {
   addUser(body: $body) {
+    ...UserFields
+  }
+}
+
+mutation UpdateUserMutation($body: InputUpdateUser!) {
+  updateUser(body: $body) {
     ...UserFields
   }
 }

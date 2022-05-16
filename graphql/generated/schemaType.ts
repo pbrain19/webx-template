@@ -12,11 +12,24 @@ export type Scalars = {
   Float: number
 }
 
+export type InputUpdateUser = {
+  linkedIn?: InputMaybe<Scalars['String']>
+  name: Scalars['String']
+  twitter?: InputMaybe<Scalars['String']>
+}
+
+export type InputUserType = {
+  email: Scalars['String']
+  name: Scalars['String']
+  password: Scalars['String']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   addPlace?: Maybe<Place>
   addReview?: Maybe<Review>
   addUser: User
+  updateUser: User
 }
 
 export type MutationAddPlaceArgs = {
@@ -28,7 +41,11 @@ export type MutationAddReviewArgs = {
 }
 
 export type MutationAddUserArgs = {
-  body?: InputMaybe<InputUserType>
+  body: InputUserType
+}
+
+export type MutationUpdateUserArgs = {
+  body: InputUpdateUser
 }
 
 export type Place = {
@@ -93,10 +110,4 @@ export type InputReviewType = {
   id?: InputMaybe<Scalars['ID']>
   place?: InputMaybe<Scalars['ID']>
   rate?: InputMaybe<Scalars['Float']>
-}
-
-export type InputUserType = {
-  email: Scalars['String']
-  name: Scalars['String']
-  password: Scalars['String']
 }

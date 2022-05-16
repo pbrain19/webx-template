@@ -39,8 +39,16 @@ export const AddPlaceMutation = gql`
   ${PlaceFields}
 `
 export const AddUserMutation = gql`
-  mutation AddUserMutation($body: inputUserType!) {
+  mutation AddUserMutation($body: InputUserType!) {
     addUser(body: $body) {
+      ...UserFields
+    }
+  }
+  ${UserFields}
+`
+export const UpdateUserMutation = gql`
+  mutation UpdateUserMutation($body: InputUpdateUser!) {
+    updateUser(body: $body) {
       ...UserFields
     }
   }

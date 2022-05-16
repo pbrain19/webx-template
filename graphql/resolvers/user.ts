@@ -1,5 +1,5 @@
 import { Resolvers } from '../generated'
-import { createUser } from '@/services/user'
+import { createUser, updateUser } from '@/services/user'
 
 const resolver: Resolvers = {
   User: {
@@ -20,7 +20,11 @@ const resolver: Resolvers = {
   },
   Mutation: {
     addUser: (_, args) => {
-      return createUser(args.body!)
+      return createUser(args.body)
+    },
+
+    updateUser: (_, args, ctx) => {
+      return updateUser(ctx.user.uuid, args.body)
     }
   }
 }

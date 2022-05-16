@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
-import { inputUserType } from '@/graphql/generated'
+import { InputUpdateUser, InputUserType } from '@/graphql/generated'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export const createUser = async (input: inputUserType) => {
+export const createUser = async (input: InputUserType) => {
   const user = await prisma.user.create({
     data: {
       ...input,
@@ -24,4 +24,15 @@ export const getUser = async (id: string) => {
 export const getUsers = async () => {
   const users = await prisma.user.findMany()
   return users
+}
+
+export const updateUser = async (uuid: string, input: InputUpdateUser) => {
+  const user = await prisma.user.update({
+    where: { uuid },
+    data: {
+      ...input
+    }
+  })
+
+  return user
 }

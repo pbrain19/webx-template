@@ -21,11 +21,24 @@ export type Scalars = {
   Float: number
 }
 
+export type InputUpdateUser = {
+  linkedIn?: InputMaybe<Scalars['String']>
+  name: Scalars['String']
+  twitter?: InputMaybe<Scalars['String']>
+}
+
+export type InputUserType = {
+  email: Scalars['String']
+  name: Scalars['String']
+  password: Scalars['String']
+}
+
 export type Mutation = {
   __typename: 'Mutation'
   addPlace?: Maybe<Place>
   addReview?: Maybe<Review>
   addUser: User
+  updateUser: User
 }
 
 export type MutationaddPlaceArgs = {
@@ -37,7 +50,11 @@ export type MutationaddReviewArgs = {
 }
 
 export type MutationaddUserArgs = {
-  body?: InputMaybe<inputUserType>
+  body: InputUserType
+}
+
+export type MutationupdateUserArgs = {
+  body: InputUpdateUser
 }
 
 export type Place = {
@@ -102,12 +119,6 @@ export type inputReviewType = {
   id?: InputMaybe<Scalars['ID']>
   place?: InputMaybe<Scalars['ID']>
   rate?: InputMaybe<Scalars['Float']>
-}
-
-export type inputUserType = {
-  email: Scalars['String']
-  name: Scalars['String']
-  password: Scalars['String']
 }
 
 export type PlaceFieldsFragment = {
@@ -186,12 +197,21 @@ export type AddPlaceMutationResult = {
 }
 
 export type AddUserMutationVariables = Exact<{
-  body: inputUserType
+  body: InputUserType
 }>
 
 export type AddUserMutationResult = {
   __typename: 'Mutation'
   addUser: { __typename: 'User'; id: string; name?: string | null; email: string; photo: string }
+}
+
+export type UpdateUserMutationVariables = Exact<{
+  body: InputUpdateUser
+}>
+
+export type UpdateUserMutationResult = {
+  __typename: 'Mutation'
+  updateUser: { __typename: 'User'; id: string; name?: string | null; email: string; photo: string }
 }
 
 export type PlaceListQueryVariables = Exact<{ [key: string]: never }>
@@ -297,6 +317,8 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   Float: ResolverTypeWrapper<Scalars['Float']>
   ID: ResolverTypeWrapper<Scalars['ID']>
+  InputUpdateUser: InputUpdateUser
+  InputUserType: InputUserType
   Mutation: ResolverTypeWrapper<{}>
   Place: ResolverTypeWrapper<
     Omit<Place, 'owner' | 'reviews'> & {
@@ -310,7 +332,6 @@ export type ResolversTypes = ResolversObject<{
   User: ResolverTypeWrapper<UserModel>
   inputPlaceType: inputPlaceType
   inputReviewType: inputReviewType
-  inputUserType: inputUserType
 }>
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -318,6 +339,8 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean']
   Float: Scalars['Float']
   ID: Scalars['ID']
+  InputUpdateUser: InputUpdateUser
+  InputUserType: InputUserType
   Mutation: {}
   Place: Omit<Place, 'owner' | 'reviews'> & {
     owner?: Maybe<ResolversParentTypes['User']>
@@ -329,7 +352,6 @@ export type ResolversParentTypes = ResolversObject<{
   User: UserModel
   inputPlaceType: inputPlaceType
   inputReviewType: inputReviewType
-  inputUserType: inputUserType
 }>
 
 export type MutationResolvers<
@@ -348,7 +370,18 @@ export type MutationResolvers<
     ContextType,
     Partial<MutationaddReviewArgs>
   >
-  addUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<MutationaddUserArgs>>
+  addUser?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationaddUserArgs, 'body'>
+  >
+  updateUser?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationupdateUserArgs, 'body'>
+  >
 }>
 
 export type PlaceResolvers<
@@ -490,6 +523,43 @@ export type AddUserMutationMutationResult = Apollo.MutationResult<AddUserMutatio
 export type AddUserMutationMutationOptions = Apollo.BaseMutationOptions<
   AddUserMutationResult,
   AddUserMutationVariables
+>
+export type UpdateUserMutationMutationFn = Apollo.MutationFunction<
+  UpdateUserMutationResult,
+  UpdateUserMutationVariables
+>
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      body: // value for 'body'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateUserMutationResult, UpdateUserMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateUserMutationResult, UpdateUserMutationVariables>(
+    Operations.UpdateUserMutation,
+    options
+  )
+}
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>
+export type UpdateUserMutationMutationResult = Apollo.MutationResult<UpdateUserMutationResult>
+export type UpdateUserMutationMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutationResult,
+  UpdateUserMutationVariables
 >
 
 /**
