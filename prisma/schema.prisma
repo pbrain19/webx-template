@@ -21,6 +21,8 @@ model User {
   comments  Comment[]
   responses Response[]
   deleted   DateTime?
+  twitter   String?
+  linkedIn  String?
 }
 
 model Post {
