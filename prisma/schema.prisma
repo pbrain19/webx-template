@@ -20,9 +20,25 @@ model User {
   posts     Post[]
   comments  Comment[]
   responses Response[]
+  daos      Dao[]
   deleted   DateTime?
   twitter   String?
   linkedIn  String?
+}
+
+model Dao {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique
+  name        String
+  description String
+  twitter     String?
+  link        String?
+  discord     String?
+  address     String?
+  authorId    Int
+  author      User      @relation(fields: [authorId], references: [id])
+  deleted     DateTime?
+  posts       Post[]
 }
 
 model Post {
@@ -33,6 +49,8 @@ model Post {
   published   Boolean   @default(true)
   authorId    Int
   author      User      @relation(fields: [authorId], references: [id])
+  daoId       Int?
+  Dao         Dao?      @relation(fields: [daoId], references: [id])
   deleted     DateTime?
 }
 

@@ -2,12 +2,50 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { useAddUserMutation, usePlaceListQuery } from '@/graphql/generated'
+import {
+  useAddress,
+  useMetamask,
+  useToken,
+  useWalletConnect,
+  useNetworkMismatch,
+  useNetwork,
+  ChainId,
+  useDisconnect,
+  useNFTCollection,
+  useNFTs
+} from '@thirdweb-dev/react'
+import { useCallback, useState } from 'react'
 
-const Home: NextPage = () => {
+const Home = () => {
   const { data } = usePlaceListQuery()
   const [callSave] = useAddUserMutation({
     variables: { body: { email: 'pbrain1ss9@gmail.com', name: 'paul', password: '1234' } }
   })
+  const nftCollection = useNFTCollection('0xE3f92992BB4F0f0D173623A52b2922d65172601d')
+  console.log(nftCollection)
+  const { data: nfts } = useNFTs(nftCollection)
+  const token = useToken('0xAea462B60a18340B37fAF26CbA6e6463389BA40F')
+  const connectWithMetamask = useMetamask()
+  const disconectWallet = useDisconnect()
+  const connectWithWalletConnect = useWalletConnect()
+  const [network, setNetwork] = useNetwork()
+  const address = useAddress()
+
+  const handleClick = useCallback(async () => {
+    console.log('clicked')
+    const currentBalance = await token?.balanceOf('0xb81D12E9D9f9cB044046b6d5830DA536e3205049')
+    const stringBalance = currentBalance?.displayValue
+    console.log(stringBalance?.toString())
+    // setBalance(stringBalance || '')
+  }, [token])
+
+  const changeNetwork = useCallback(async () => {
+    console.log('fired')
+    await setNetwork?.(ChainId.Mainnet)
+  }, [setNetwork])
+
+  console.log(network)
+  console.log(nfts)
 
   return (
     <div className={styles.container}>
@@ -18,7 +56,22 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1>updated main page</h1>
+        <h1>updated main page {network.data.chain?.name}</h1>
+        <div>
+          {address ? (
+            <>
+              <p>Connected as {address}</p>
+              <button onClick={() => handleClick()}>Get balance</button>
+              <button onClick={() => changeNetwork()}>change network</button>
+              <button onClick={() => disconectWallet()}>disconectWallet</button>
+            </>
+          ) : (
+            <div>
+              <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+              <button onClick={connectWithWalletConnect}>Connect Wallet connect</button>
+            </div>
+          )}
+        </div>
         <img
           src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YmVkcm9vbXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&h=400&q=60"
           alt="Image"
