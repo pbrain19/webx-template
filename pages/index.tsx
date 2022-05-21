@@ -14,12 +14,14 @@ import {
   useNFTCollection,
   useNFTs
 } from '@thirdweb-dev/react'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
 const Home = () => {
   const { data } = usePlaceListQuery()
   const [callSave] = useAddUserMutation({
-    variables: { body: { email: 'pbrain1ss9@gmail.com', name: 'paul', password: '1234' } }
+    variables: {
+      body: { email: 'pbrain12ss9@gmail.com', name: 'paul', password: '1234' }
+    }
   })
   const nftCollection = useNFTCollection('0xE3f92992BB4F0f0D173623A52b2922d65172601d')
   console.log(nftCollection)
